@@ -19,16 +19,13 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "patients_medical_record_number", unique = true)
-    private String medicalRecordNumber;
-
     @Column(length = 14, name = "patients_cpf",unique = true)
     private String cpf;
 
     @Column(length = 70, nullable = false)
     private String name;
 
-
+    private boolean fallRisk;
     private LocalDate birthDate;
     private String gender;
     private String healthInsurance; //convenio
