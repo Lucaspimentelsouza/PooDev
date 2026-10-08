@@ -2,6 +2,24 @@
 
 ## Entidades principais
 
+### Doctor
+
+Representa o médico autenticado que acessa a API e é responsável pelas consultas
+clínicas registradas no sistema.
+
+Campos principais:
+
+- `id`: identificador do médico
+- `username`: nome de usuário utilizado na autenticação
+- `password`: senha do médico utilizada na autenticação
+- `active`: indica se o médico possui acesso ativo ao sistema
+- `fullName`: nome completo do médico
+- `medicalLicense`: registro profissional do médico (CRM)
+- `specialty`: especialidade médica principal
+- `professionalEmail`: e-mail profissional
+- `createdAt`: data e hora de criação do registro
+- `updatedAt`: data e hora da última atualização
+
 ### Patient
 
 Representa o paciente cadastrado na clínica.
@@ -26,6 +44,7 @@ Campos principais:
 - `diagnosticHypothesis`: hipótese diagnóstica
 - `clinicalPlan`: conduta clínica
 - `patientId`: identificador do paciente associado
+- `doctorId`: identificador do médico responsável pela consulta
 
 ### VitalSigns
 
@@ -39,20 +58,34 @@ Campos principaiis:
 - `bodyTemperature`: temperatura corporal
 - `consultationId`: identificador da consulta associada
 
+### Allergy
+
+Representa uma alergia registrada no histórico clínico do paciente.
+
+Campos principais:
+
+- `id`: identificador do registro de alergia
+- `allergen`: substância ou agente causador da alergia
+- `active`: indica se a alergia está ativa
+- `patientId`: identificador do paciente associado
+
 ## Relacionamentos
 
 ```text
 Doctor 1:N Consultation
 Patient 1:N Consultation
 Consultation 1:1 VitalSigns
+Patient 1:N Allergy
 ```
 
 - Um médico pode realizar várias consultas.
 - Cada consulta é realizada por um único médico.
 - Um paciente pode possuir várias consultas.
 - Cada consulta pertence a um único paciente.
-- Uma consulta pode possuir um único registro de sinais vitais.
+- Uma consulta pode possuir no máximo um registro de sinais vitais.
 - Um registro de sinais vitais pertence a uma única consulta.
+- Um paciente pode possuir várias alergias.
+- Cada alergia pertence a um único paciente.
 
 ## Chaves estrangeiras
 
@@ -60,6 +93,7 @@ Consultation 1:1 VitalSigns
 consultations.doctor_id → doctors.id
 consultations.patient_id → patients.id
 vital_signs.consultation_id → consultations.id
+allergies.patient_id → patients.id
 ```
 
 A coluna `vital_signs.consultation_id` possui restrição de unicidade, garantindo que uma consulta não seja associada a mais de um registro de sinais vitais.

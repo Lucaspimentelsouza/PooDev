@@ -39,9 +39,15 @@ classDiagram
         +BigDecimal weight
         +BigDecimal bodyTemperature
     }
+    class Allergy {
+        +Long id
+        +String allergen
+        +boolean active
+    }
 
     Doctor "1" --> "0..*" Consultation : performs
     Patient "1" --> "0..*" Consultation : has
+    Patient "1" --> "0..*" Allergy : has
     Consultation "1" --> "0..1" VitalSigns : has
 ```
 
