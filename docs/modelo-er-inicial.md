@@ -42,20 +42,58 @@ Campos principaiis:
 ## Relacionamentos
 
 ```text
+Doctor 1:N Consultation
 Patient 1:N Consultation
 Consultation 1:1 VitalSigns
 ```
 
+- Um médico pode realizar várias consultas.
+- Cada consulta é realizada por um único médico.
 - Um paciente pode possuir várias consultas.
 - Cada consulta pertence a um único paciente.
-- Uma consulta possui um único registro de sinais vitais.
+- Uma consulta pode possuir um único registro de sinais vitais.
 - Um registro de sinais vitais pertence a uma única consulta.
 
 ## Chaves estrangeiras
 
 ```text
+consultations.doctor_id → doctors.id
 consultations.patient_id → patients.id
 vital_signs.consultation_id → consultations.id
 ```
 
 A coluna `vital_signs.consultation_id` possui restrição de unicidade, garantindo que uma consulta não seja associada a mais de um registro de sinais vitais.
+
+
+## Revisão de escopo após orientação dos professores
+
+O foco da API foi refinado para atender exclusivamente a tela do médico.
+Os dados administrativos e operacionais da clínica, como cadastro realizado
+pela recepção e registro operacional da triagem, são considerados existentes
+na base da clínica e não fazem parte do escopo de implementação desta API.
+
+A API será responsável por consultar, consolidar e disponibilizar o histórico
+clínico do paciente para uso do médico, incluindo alertas clínicos informativos.
+
+### Entidade central de acesso
+
+O médico é representado pela entidade `Doctor` e possui acesso autenticado
+aos recursos clínicos da API.
+
+### Relações prioritárias
+
+```text
+Doctor 1:N Consultation
+Patient 1:N Consultation
+Consultation 1:1 VitalSigns
+
+Patient 1:N Allergy
+Patient 1:N PreExistingCondition
+Patient 1:N ContinuousMedication
+Patient 1:N Surgery
+```
+
+### Resultado prioritário
+
+O principal recurso da API será a obtenção de um resumo clínico consolidado
+do paciente para exibição na tela do médico.

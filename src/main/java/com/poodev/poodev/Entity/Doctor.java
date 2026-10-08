@@ -1,8 +1,6 @@
 package com.poodev.poodev.Entity;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "doctors")
+public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,16 +36,17 @@ public class User {
     @Column(name = "medical_license", nullable = false,length = 20, unique = true)
     private String medicalLicense; //crm
 
+    @Column(length = 100)
     private String specialty;
 
-    private String yearsOfExperience;
-
-    //Contact
+    @Column(name = "professional_email", length = 150)
     private String professionalEmail;
-    private String phoneNumber;
 
     //For audit
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt; // data e hora de criação do registro
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt; // data e hora da última atualização
 
 }

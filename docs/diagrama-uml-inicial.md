@@ -2,6 +2,18 @@
 
 ```mermaid
 classDiagram
+    class Doctor {
+        +Long id
+        +String username
+        +String password
+        +boolean active
+        +String fullName
+        +String medicalLicense
+        +String specialty
+        +String professionalEmail
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
     class Patient {
         +Long id
         +String cpf
@@ -28,6 +40,7 @@ classDiagram
         +BigDecimal bodyTemperature
     }
 
+    Doctor "1" --> "0..*" Consultation : performs
     Patient "1" --> "0..*" Consultation : has
     Consultation "1" --> "0..1" VitalSigns : has
 ```

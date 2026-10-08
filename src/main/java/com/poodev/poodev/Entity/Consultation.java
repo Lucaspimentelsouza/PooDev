@@ -34,4 +34,9 @@ public class Consultation {
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     @JoinColumn (name = "patient_id", nullable = false)
     private Patient patient;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor; // médico responsável pela consulta
+
 }
