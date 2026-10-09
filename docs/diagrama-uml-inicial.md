@@ -44,11 +44,19 @@ classDiagram
         +String allergen
         +boolean active
     }
+    class ContinuousMedication {
+        +Long id
+        +String medicationName
+        +String dosage
+        +String frequency
+        +boolean active
+    }
 
     Doctor "1" --> "0..*" Consultation : performs
     Patient "1" --> "0..*" Consultation : has
     Patient "1" --> "0..*" Allergy : has
     Consultation "1" --> "0..1" VitalSigns : has
+    Patient "1" --> "0..*" ContinuousMedication : uses
 ```
 
 ## Termos clínicos

@@ -69,6 +69,19 @@ Campos principais:
 - `active`: indica se a alergia está ativa
 - `patientId`: identificador do paciente associado
 
+### ContinuousMedication
+
+Representa um medicamento de uso contínuo registrado no histórico clínico do paciente.
+
+Campos principais:
+
+- `id`: identificador do registro do medicamento
+- `medicationName`: nome do medicamento
+- `dosage`: dose prescrita ou utilizada
+- `frequency`: frequência de uso
+- `active`: indica se o medicamento ainda está em uso
+- `patientId`: identificador do paciente associado
+
 ## Relacionamentos
 
 ```text
@@ -76,6 +89,7 @@ Doctor 1:N Consultation
 Patient 1:N Consultation
 Consultation 1:1 VitalSigns
 Patient 1:N Allergy
+Patient 1:N ContinuousMedication
 ```
 
 - Um médico pode realizar várias consultas.
@@ -86,6 +100,8 @@ Patient 1:N Allergy
 - Um registro de sinais vitais pertence a uma única consulta.
 - Um paciente pode possuir várias alergias.
 - Cada alergia pertence a um único paciente.
+- Um paciente pode possuir vários medicamentos de uso contínuo.
+- Cada medicamento de uso contínuo pertence a um único paciente.
 
 ## Chaves estrangeiras
 
@@ -94,6 +110,7 @@ consultations.doctor_id → doctors.id
 consultations.patient_id → patients.id
 vital_signs.consultation_id → consultations.id
 allergies.patient_id → patients.id
+continuous_medications.patient_id → patients.id
 ```
 
 A coluna `vital_signs.consultation_id` possui restrição de unicidade, garantindo que uma consulta não seja associada a mais de um registro de sinais vitais.
