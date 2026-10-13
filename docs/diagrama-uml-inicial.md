@@ -51,12 +51,19 @@ classDiagram
         +String frequency
         +boolean active
     }
+    class Surgery {
+        +Long id
+        +String procedureName
+        +LocalDate surgeryDate
+        +String notes
+    }
 
     Doctor "1" --> "0..*" Consultation : performs
     Patient "1" --> "0..*" Consultation : has
     Patient "1" --> "0..*" Allergy : has
     Consultation "1" --> "0..1" VitalSigns : has
     Patient "1" --> "0..*" ContinuousMedication : uses
+    Patient "1" --> "0..*" Surgery : underwent
 ```
 
 ## Termos clínicos
