@@ -77,7 +77,11 @@ classDiagram
 
 ## Relações
 
-- Um `Patient` pode possuir nenhuma ou várias `Consultation`.
-- Cada `Consultation` pertence a um `Patient`.
-- Uma `Consultation` pode possuir no máximo um registro de `VitalSigns`.
-- Cada `VitalSigns` pertence a uma única `Consultation`.
+```text
+Patient 1 ──── N Consultation
+Doctor  1 ──── N Consultation
+Consultation 1 ──── 1 VitalSigns
+Patient 1 ──── N Allergy
+Patient 1 ──── N ContinuousMedication
+Patient 1 ──── N Surgery
+```

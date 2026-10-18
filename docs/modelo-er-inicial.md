@@ -132,7 +132,7 @@ surgeries.patient_id → patients.id
 A coluna `vital_signs.consultation_id` possui restrição de unicidade, garantindo que uma consulta não seja associada a mais de um registro de sinais vitais.
 
 
-## Revisão de escopo após orientação dos professores
+## Revisão de escopo
 
 O foco da API foi refinado para atender exclusivamente a tela do médico.
 Os dados administrativos e operacionais da clínica, como cadastro realizado
@@ -140,27 +140,9 @@ pela recepção e registro operacional da triagem, são considerados existentes
 na base da clínica e não fazem parte do escopo de implementação desta API.
 
 A API será responsável por consultar, consolidar e disponibilizar o histórico
-clínico do paciente para uso do médico, incluindo alertas clínicos informativos.
+clínico do paciente para uso do médico.
 
 ### Entidade central de acesso
 
 O médico é representado pela entidade `Doctor` e possui acesso autenticado
 aos recursos clínicos da API.
-
-### Relações prioritárias
-
-```text
-Doctor 1:N Consultation
-Patient 1:N Consultation
-Consultation 1:1 VitalSigns
-
-Patient 1:N Allergy
-Patient 1:N PreExistingCondition
-Patient 1:N ContinuousMedication
-Patient 1:N Surgery
-```
-
-### Resultado prioritário
-
-O principal recurso da API será a obtenção de um resumo clínico consolidado
-do paciente para exibição na tela do médico.
