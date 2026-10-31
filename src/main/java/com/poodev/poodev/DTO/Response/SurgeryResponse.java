@@ -4,9 +4,8 @@ import java.time.LocalDate;
 
 public record SurgeryResponse(
         Long id,
-        String procedure,
+        String procedureName,
         LocalDate surgeryDate,
-        String hospital,
         String notes
 ) {
 }

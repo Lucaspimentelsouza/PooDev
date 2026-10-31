@@ -63,7 +63,7 @@ SQL equivalente:
 
 ```sql
 SELECT *
-FROM allergies
+FROM allergys
 WHERE patient_id = :patientId
   AND active = TRUE;
 ```
