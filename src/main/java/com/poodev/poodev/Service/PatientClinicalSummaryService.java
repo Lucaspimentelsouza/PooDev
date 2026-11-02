@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import com.poodev.poodev.Exception.PatientNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -52,9 +53,7 @@ public class PatientClinicalSummaryService {
     public PatientClinicalSummaryResponse getClinicalSummary(Long patientId) {
 
         Patient patient = patientRepository.findById(patientId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Paciente não encontrado: " + patientId
-                ));
+                .orElseThrow(() -> new PatientNotFoundException(patientId));
 
         List<Allergy> allergies =
                 allergyRepository.findByPatientIdAndActiveTrue(patientId);
