@@ -5,6 +5,7 @@ import com.poodev.poodev.DTO.Response.PatientHeaderResponse;
 import com.poodev.poodev.DTO.Response.PatientResponse;
 import com.poodev.poodev.Entity.Patient;
 import org.springframework.stereotype.Component;
+import com.poodev.poodev.DTO.Request.PatientUpdateRequest;
 
 @Component
 public class PatientMapper {
@@ -48,5 +49,18 @@ public class PatientMapper {
                 patient.getPhone(),
                 patient.isFallRisk()
         );
+    }
+
+    public void updateEntity(
+            PatientUpdateRequest request,
+            Patient patient
+    ) {
+        patient.setName(request.name());
+        patient.setCpf(request.cpf());
+        patient.setBirthDate(request.birthDate());
+        patient.setGender(request.gender());
+        patient.setHealthInsurance(request.healthInsurance());
+        patient.setPhone(request.phone());
+        patient.setFallRisk(request.fallRisk());
     }
 }

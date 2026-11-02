@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.poodev.poodev.Exception.PatientNotFoundException;
+import org.springframework.data.domain.Sort;
+import com.poodev.poodev.DTO.Request.PatientUpdateRequest;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +35,31 @@ public class PatientService {
                 .orElseThrow(() -> new PatientNotFoundException(patientId));
 
         return patientMapper.toResponse(patient);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PatientResponse> findAll() {
+        List<Patient> patients = patientRepository.findAll(
+                Sort.by("name", "id").ascending()
+        );
+
+        return patients.stream()
+                .map(patientMapper::toResponse)
+                .toList();
+    }
+
+    @Transactional
+    public PatientResponse update(
+            Long patientId,
+            PatientUpdateRequest request
+    ) {
+        Patient patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new PatientNotFoundException(patientId));
+
+        patientMapper.updateEntity(request, patient);
+
+        Patient savedPatient = patientRepository.save(patient);
+
+        return patientMapper.toResponse(savedPatient);
     }
 }

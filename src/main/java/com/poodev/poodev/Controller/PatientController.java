@@ -14,6 +14,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.net.URI;
+import java.util.List;
+import com.poodev.poodev.DTO.Request.PatientUpdateRequest;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/patients")
@@ -42,6 +45,23 @@ public class PatientController {
             @PathVariable("id") Long patientId
     ) {
         PatientResponse response = patientService.findById(patientId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PatientResponse>> findAll() {
+        List<PatientResponse> response = patientService.findAll();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PatientResponse> update(
+            @PathVariable("id") Long patientId,
+            @Valid @RequestBody PatientUpdateRequest request
+    ) {
+        PatientResponse response = patientService.update(patientId, request);
 
         return ResponseEntity.ok(response);
     }
