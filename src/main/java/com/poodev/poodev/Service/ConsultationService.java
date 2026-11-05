@@ -15,6 +15,8 @@ import com.poodev.poodev.Repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import com.poodev.poodev.DTO.Request.ConsultationUpdateRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -55,5 +57,39 @@ public class ConsultationService {
                         );
 
         return consultationMapper.toResponse(consultation);
+    }
+
+    //5
+    @Transactional(readOnly = true)
+    public List<ConsultationResponse> findByPatientId(Long patientId) {
+        patientRepository.findById(patientId)
+                .orElseThrow(() ->
+                        new PatientNotFoundException(patientId)
+                );
+
+        return consultationRepository
+                .findByPatientIdOrderByConsultationDateTimeDesc(patientId)
+                .stream()
+                .map(consultationMapper::toResponse)
+                .toList();
+    }
+
+    @Transactional
+    public ConsultationResponse update(
+            Long consultationId,
+            ConsultationUpdateRequest request
+    ) {
+        Consultation consultation = consultationRepository
+                .findById(consultationId)
+                .orElseThrow(() ->
+                        new ConsultationNotFoundException(consultationId)
+                );
+
+        consultationMapper.updateEntity(request, consultation);
+
+        Consultation savedConsultation =
+                consultationRepository.save(consultation);
+
+        return consultationMapper.toResponse(savedConsultation);
     }
 }

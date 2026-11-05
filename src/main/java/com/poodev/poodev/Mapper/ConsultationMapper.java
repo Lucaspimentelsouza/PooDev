@@ -7,6 +7,7 @@ import com.poodev.poodev.Entity.Consultation;
 import com.poodev.poodev.Entity.Doctor;
 import com.poodev.poodev.Entity.Patient;
 import org.springframework.stereotype.Component;
+import com.poodev.poodev.DTO.Request.ConsultationUpdateRequest;
 
 @Component
 public class ConsultationMapper {
@@ -52,5 +53,15 @@ public class ConsultationMapper {
                 consultation.getDoctor().getId(),
                 consultation.getDoctor().getFullName()
         );
+    }
+
+    public void updateEntity(
+            ConsultationUpdateRequest request,
+            Consultation consultation
+    ) {
+        consultation.setConsultationDateTime(request.consultationDateTime());
+        consultation.setChiefComplaint(request.chiefComplaint());
+        consultation.setDiagnosticHypothesis(request.diagnosticHypothesis());
+        consultation.setClinicalPlan(request.clinicalPlan());
     }
 }

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import com.poodev.poodev.DTO.Request.ConsultationUpdateRequest;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api/consultations")
@@ -44,6 +46,17 @@ public class ConsultationController {
     ) {
         return ResponseEntity.ok(
                 consultationService.findById(consultationId)
+        );
+    }
+
+    //5
+    @PutMapping("/{id}")
+    public ResponseEntity<ConsultationResponse> update(
+            @PathVariable("id") Long consultationId,
+            @Valid @RequestBody ConsultationUpdateRequest request
+    ) {
+        return ResponseEntity.ok(
+                consultationService.update(consultationId, request)
         );
     }
 }
