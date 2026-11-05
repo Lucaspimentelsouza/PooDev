@@ -21,4 +21,32 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(DoctorNotFoundException.class)
+    public ProblemDetail handleDoctorNotFound(
+            DoctorNotFoundException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Médico não encontrado");
+
+        return problem;
+    }
+
+    @ExceptionHandler(ConsultationNotFoundException.class)
+    public ProblemDetail handleConsultationNotFound(
+            ConsultationNotFoundException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Consulta não encontrada");
+
+        return problem;
+    }
 }

@@ -31,3 +31,16 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Build
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/

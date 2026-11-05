@@ -37,7 +37,7 @@ public class PatientMapper {
 
         return patient;
     }
-
+    //atributos enviados para o json
     public PatientResponse toResponse(Patient patient) {
         return new PatientResponse(
                 patient.getId(),
