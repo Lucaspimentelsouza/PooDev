@@ -49,4 +49,32 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(VitalSignsNotFoundException.class)
+    public ProblemDetail handleVitalSignsNotFound(
+            VitalSignsNotFoundException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Sinais vitais não encontrados");
+
+        return problem;
+    }
+
+    @ExceptionHandler(VitalSignsAlreadyExistsException.class)
+    public ProblemDetail handleVitalSignsAlreadyExists(
+            VitalSignsAlreadyExistsException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Triagem já cadastrada");
+
+        return problem;
+    }
 }
