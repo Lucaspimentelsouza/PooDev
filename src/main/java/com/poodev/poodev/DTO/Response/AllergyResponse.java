@@ -2,6 +2,8 @@ package com.poodev.poodev.DTO.Response;
 
 public record AllergyResponse(
         Long id,
-        String allergen
+        Long patientId,
+        String allergen,
+        boolean active
 ) {
 }

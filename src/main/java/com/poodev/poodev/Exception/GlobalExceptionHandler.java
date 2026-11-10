@@ -77,4 +77,18 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(AllergyAlreadyExistsException.class)
+    public ProblemDetail handleAllergyAlreadyExists(
+            AllergyAlreadyExistsException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Alergia já cadastrada");
+
+        return problem;
+    }
 }

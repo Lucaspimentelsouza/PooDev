@@ -5,9 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
 
+@Repository
 public interface AllergyRepository extends JpaRepository<Allergy, Long> {
 
-    List<Allergy> findByPatientIdAndActiveTrue(Long patientId); //busca alergias ativaa
+    List<Allergy> findByPatientIdAndActiveTrue(Long patientId);
+
+    boolean existsByPatientIdAndAllergenIgnoreCase(
+            Long patientId,
+            String allergen
+    );
 }
