@@ -91,4 +91,18 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(PreExistingConditionAlreadyExistsException.class)
+    public ProblemDetail handlePreExistingConditionAlreadyExists(
+            PreExistingConditionAlreadyExistsException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Doença preexistente já cadastrada");
+
+        return problem;
+    }
 }
