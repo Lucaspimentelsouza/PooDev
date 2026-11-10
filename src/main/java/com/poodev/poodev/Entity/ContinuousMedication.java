@@ -24,6 +24,9 @@ public class ContinuousMedication {
     @Column(length = 70)
     private String dosage;
 
+    @Column(length = 70)
+    private String frequency;
+
     @Column(nullable = false)
     private boolean active;
 

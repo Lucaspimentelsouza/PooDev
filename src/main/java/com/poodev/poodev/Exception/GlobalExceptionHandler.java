@@ -105,4 +105,32 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(ContinuousMedicationAlreadyExistsException.class)
+    public ProblemDetail handleContinuousMedicationAlreadyExists(
+            ContinuousMedicationAlreadyExistsException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Medicamento já cadastrado");
+
+        return problem;
+    }
+
+    @ExceptionHandler(SurgeryAlreadyExistsException.class)
+    public ProblemDetail handleSurgeryAlreadyExists(
+            SurgeryAlreadyExistsException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Cirurgia já cadastrada");
+
+        return problem;
+    }
 }
