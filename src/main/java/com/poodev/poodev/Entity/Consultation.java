@@ -39,4 +39,7 @@ public class Consultation {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor; // médico responsável pela consulta
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "return_of_consultation_id")
+    private Consultation returnOfConsultation; // consulta original, se esta for um retorno
 }

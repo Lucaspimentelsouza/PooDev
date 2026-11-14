@@ -133,4 +133,18 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(InvalidReturnDateException.class)
+    public ProblemDetail handleInvalidReturnDate(
+            InvalidReturnDateException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Data de retorno inválida");
+
+        return problem;
+    }
 }

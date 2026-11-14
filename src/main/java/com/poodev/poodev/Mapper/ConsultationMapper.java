@@ -8,6 +8,7 @@ import com.poodev.poodev.Entity.Doctor;
 import com.poodev.poodev.Entity.Patient;
 import org.springframework.stereotype.Component;
 import com.poodev.poodev.DTO.Request.ConsultationUpdateRequest;
+import com.poodev.poodev.DTO.Request.ConsultationReturnCreateRequest;
 
 @Component
 public class ConsultationMapper {
@@ -42,6 +43,10 @@ public class ConsultationMapper {
     }
 
     public ConsultationResponse toResponse(Consultation consultation) {
+        Long returnOfId = consultation.getReturnOfConsultation() != null
+                ? consultation.getReturnOfConsultation().getId()
+                : null;
+
         return new ConsultationResponse(
                 consultation.getId(),
                 consultation.getConsultationDateTime(),
@@ -51,7 +56,8 @@ public class ConsultationMapper {
                 consultation.getPatient().getId(),
                 consultation.getPatient().getName(),
                 consultation.getDoctor().getId(),
-                consultation.getDoctor().getFullName()
+                consultation.getDoctor().getFullName(),
+                returnOfId
         );
     }
 
@@ -63,5 +69,23 @@ public class ConsultationMapper {
         consultation.setChiefComplaint(request.chiefComplaint());
         consultation.setDiagnosticHypothesis(request.diagnosticHypothesis());
         consultation.setClinicalPlan(request.clinicalPlan());
+    }
+
+    public Consultation toReturnEntity(
+            ConsultationReturnCreateRequest request,
+            Consultation originalConsultation,
+            Doctor doctor
+    ) {
+        Consultation returnConsultation = new Consultation();
+
+        returnConsultation.setConsultationDateTime(request.consultationDateTime());
+        returnConsultation.setChiefComplaint(request.chiefComplaint());
+        returnConsultation.setDiagnosticHypothesis(request.diagnosticHypothesis());
+        returnConsultation.setClinicalPlan(request.clinicalPlan());
+        returnConsultation.setPatient(originalConsultation.getPatient());
+        returnConsultation.setDoctor(doctor);
+        returnConsultation.setReturnOfConsultation(originalConsultation);
+
+        return returnConsultation;
     }
 }

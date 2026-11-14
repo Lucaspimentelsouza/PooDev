@@ -11,6 +11,7 @@ public record ConsultationResponse(
         Long patientId,
         String patientName,
         Long doctorId,
-        String doctorName
+        String doctorName,
+        Long returnOfConsultationId
 ) {
 }

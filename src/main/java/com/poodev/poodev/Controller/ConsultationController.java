@@ -1,6 +1,7 @@
 package com.poodev.poodev.Controller;
 
 import com.poodev.poodev.DTO.Request.ConsultationCreateRequest;
+import com.poodev.poodev.DTO.Request.ConsultationReturnCreateRequest;
 import com.poodev.poodev.DTO.Response.ConsultationResponse;
 import com.poodev.poodev.Service.ConsultationService;
 import jakarta.validation.Valid;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+
 import com.poodev.poodev.DTO.Request.ConsultationUpdateRequest;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -57,6 +60,33 @@ public class ConsultationController {
     ) {
         return ResponseEntity.ok(
                 consultationService.update(consultationId, request)
+        );
+    }
+
+    //parte do return
+    @PostMapping("/{id}/returns")
+    public ResponseEntity<ConsultationResponse> createReturn(
+            @PathVariable("id") Long consultationId,
+            @Valid @RequestBody ConsultationReturnCreateRequest request
+    ) {
+        ConsultationResponse response =
+                consultationService.createReturn(consultationId, request);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/api/consultations/{id}")
+                .buildAndExpand(response.id())
+                .toUri();
+
+        return ResponseEntity.created(location).body(response);
+    }
+
+    @GetMapping("/{id}/returns")
+    public ResponseEntity<List<ConsultationResponse>> findReturns(
+            @PathVariable("id") Long consultationId
+    ) {
+        return ResponseEntity.ok(
+                consultationService.findReturns(consultationId)
         );
     }
 }

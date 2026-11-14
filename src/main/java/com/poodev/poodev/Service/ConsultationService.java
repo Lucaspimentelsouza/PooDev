@@ -1,12 +1,14 @@
 package com.poodev.poodev.Service;
 
 import com.poodev.poodev.DTO.Request.ConsultationCreateRequest;
+import com.poodev.poodev.DTO.Request.ConsultationReturnCreateRequest;
 import com.poodev.poodev.DTO.Response.ConsultationResponse;
 import com.poodev.poodev.Entity.Consultation;
 import com.poodev.poodev.Entity.Doctor;
 import com.poodev.poodev.Entity.Patient;
 import com.poodev.poodev.Exception.ConsultationNotFoundException;
 import com.poodev.poodev.Exception.DoctorNotFoundException;
+import com.poodev.poodev.Exception.InvalidReturnDateException;
 import com.poodev.poodev.Exception.PatientNotFoundException;
 import com.poodev.poodev.Mapper.ConsultationMapper;
 import com.poodev.poodev.Repository.ConsultationRepository;
@@ -91,5 +93,55 @@ public class ConsultationService {
                 consultationRepository.save(consultation);
 
         return consultationMapper.toResponse(savedConsultation);
+    }
+
+    //parte do return
+    @Transactional
+    public ConsultationResponse createReturn(
+            Long originalConsultationId,
+            ConsultationReturnCreateRequest request
+    ) {
+        Consultation original = consultationRepository
+                .findById(originalConsultationId)
+                .orElseThrow(() ->
+                        new ConsultationNotFoundException(originalConsultationId)
+                );
+
+        if (!request.consultationDateTime()
+                .isAfter(original.getConsultationDateTime())) {
+            throw new InvalidReturnDateException(originalConsultationId);
+        }
+
+        Doctor doctor = original.getDoctor();
+
+        if (request.doctorId() != null) {
+            doctor = doctorRepository.findById(request.doctorId())
+                    .orElseThrow(() ->
+                            new DoctorNotFoundException(request.doctorId())
+                    );
+        }
+
+        Consultation returnConsultation =
+                consultationMapper.toReturnEntity(request, original, doctor);
+
+        Consultation savedReturn =
+                consultationRepository.save(returnConsultation);
+
+        return consultationMapper.toResponse(savedReturn);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ConsultationResponse> findReturns(Long consultationId) {
+        if (!consultationRepository.existsById(consultationId)) {
+            throw new ConsultationNotFoundException(consultationId);
+        }
+
+        return consultationRepository
+                .findByReturnOfConsultation_IdOrderByConsultationDateTimeAsc(
+                        consultationId
+                )
+                .stream()
+                .map(consultationMapper::toResponse)
+                .toList();
     }
 }
