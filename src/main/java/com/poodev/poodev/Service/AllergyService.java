@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import com.poodev.poodev.Exception.AllergyNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -60,5 +61,24 @@ public class AllergyService {
                 .stream()
                 .map(allergyMapper::toResponse)
                 .toList();
+    }
+
+    @Transactional
+    public AllergyResponse deactivate(Long patientId, Long allergyId) {
+        if (!patientRepository.existsById(patientId)) {
+            throw new PatientNotFoundException(patientId);
+        }
+
+        var allergy = allergyRepository
+                .findByIdAndPatientId(allergyId, patientId)
+                .orElseThrow(() ->
+                        new AllergyNotFoundException(patientId, allergyId)
+                );
+
+        allergy.setActive(false);
+
+        var savedAllergy = allergyRepository.save(allergy);
+
+        return allergyMapper.toResponse(savedAllergy);
     }
 }

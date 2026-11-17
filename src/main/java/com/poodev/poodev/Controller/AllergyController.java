@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 @RestController
 @RequestMapping("/api/patients/{patientId}/allergies")
@@ -47,6 +48,16 @@ public class AllergyController {
     ) {
         return ResponseEntity.ok(
                 allergyService.findByPatientId(patientId)
+        );
+    }
+
+    @PatchMapping("/{allergyId}/deactivate")
+    public ResponseEntity<AllergyResponse> deactivate(
+            @PathVariable("patientId") Long patientId,
+            @PathVariable("allergyId") Long allergyId
+    ) {
+        return ResponseEntity.ok(
+                allergyService.deactivate(patientId, allergyId)
         );
     }
 }

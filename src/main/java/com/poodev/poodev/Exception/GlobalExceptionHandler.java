@@ -147,4 +147,18 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(AllergyNotFoundException.class)
+    public ProblemDetail handleAllergyNotFound(
+            AllergyNotFoundException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Alergia não encontrada");
+
+        return problem;
+    }
 }
