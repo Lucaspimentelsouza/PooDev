@@ -1,6 +1,7 @@
 package com.poodev.poodev.DTO.Request;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,13 @@ public record ConsultationUpdateRequest(
         @Size(max = 255, message = "A hipótese deve ter no máximo 255 caracteres.")
         String diagnosticHypothesis,
 
-        String clinicalPlan
+        String clinicalPlan,
+
+        String historyOfPresentIllness,
+
+        String physicalExamination,
+
+        @Positive(message = "O prazo de retorno deve ser maior que zero.")
+        Integer recommendedReturnDays
 ) {
 }

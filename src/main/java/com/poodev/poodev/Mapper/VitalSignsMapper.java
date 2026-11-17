@@ -18,6 +18,9 @@ public class VitalSignsMapper {
         vitalSigns.setBloodPressure(request.bloodPressure());
         vitalSigns.setWeight(request.weight());
         vitalSigns.setBodyTemperature(request.bodyTemperature());
+        vitalSigns.setHeartRate(request.heartRate());
+        vitalSigns.setOxygenSaturation(request.oxygenSaturation());
+        vitalSigns.setBloodGlucose(request.bloodGlucose());
         vitalSigns.setConsultation(consultation);
 
         return vitalSigns;
@@ -29,7 +32,10 @@ public class VitalSignsMapper {
                 vitalSigns.getConsultation().getId(),
                 vitalSigns.getBloodPressure(),
                 vitalSigns.getWeight(),
-                vitalSigns.getBodyTemperature()
+                vitalSigns.getBodyTemperature(),
+                vitalSigns.getHeartRate(),
+                vitalSigns.getOxygenSaturation(),
+                vitalSigns.getBloodGlucose()
         );
     }
 }

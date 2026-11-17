@@ -1,14 +1,14 @@
 package com.poodev.poodev.Mapper;
 
 import com.poodev.poodev.DTO.Request.ConsultationCreateRequest;
+import com.poodev.poodev.DTO.Request.ConsultationReturnCreateRequest;
+import com.poodev.poodev.DTO.Request.ConsultationUpdateRequest;
 import com.poodev.poodev.DTO.Response.ConsultationResponse;
 import com.poodev.poodev.DTO.Response.ConsultationSummaryResponse;
 import com.poodev.poodev.Entity.Consultation;
 import com.poodev.poodev.Entity.Doctor;
 import com.poodev.poodev.Entity.Patient;
 import org.springframework.stereotype.Component;
-import com.poodev.poodev.DTO.Request.ConsultationUpdateRequest;
-import com.poodev.poodev.DTO.Request.ConsultationReturnCreateRequest;
 
 @Component
 public class ConsultationMapper {
@@ -36,6 +36,9 @@ public class ConsultationMapper {
         consultation.setChiefComplaint(request.chiefComplaint());
         consultation.setDiagnosticHypothesis(request.diagnosticHypothesis());
         consultation.setClinicalPlan(request.clinicalPlan());
+        consultation.setHistoryOfPresentIllness(request.historyOfPresentIllness());
+        consultation.setPhysicalExamination(request.physicalExamination());
+        consultation.setRecommendedReturnDays(request.recommendedReturnDays());
         consultation.setPatient(patient);
         consultation.setDoctor(doctor);
 
@@ -57,7 +60,10 @@ public class ConsultationMapper {
                 consultation.getPatient().getName(),
                 consultation.getDoctor().getId(),
                 consultation.getDoctor().getFullName(),
-                returnOfId
+                returnOfId,
+                consultation.getHistoryOfPresentIllness(),
+                consultation.getPhysicalExamination(),
+                consultation.getRecommendedReturnDays()
         );
     }
 
@@ -69,6 +75,9 @@ public class ConsultationMapper {
         consultation.setChiefComplaint(request.chiefComplaint());
         consultation.setDiagnosticHypothesis(request.diagnosticHypothesis());
         consultation.setClinicalPlan(request.clinicalPlan());
+        consultation.setHistoryOfPresentIllness(request.historyOfPresentIllness());
+        consultation.setPhysicalExamination(request.physicalExamination());
+        consultation.setRecommendedReturnDays(request.recommendedReturnDays());
     }
 
     public Consultation toReturnEntity(
@@ -82,6 +91,11 @@ public class ConsultationMapper {
         returnConsultation.setChiefComplaint(request.chiefComplaint());
         returnConsultation.setDiagnosticHypothesis(request.diagnosticHypothesis());
         returnConsultation.setClinicalPlan(request.clinicalPlan());
+        returnConsultation.setHistoryOfPresentIllness(
+                request.historyOfPresentIllness()
+        );
+        returnConsultation.setPhysicalExamination(request.physicalExamination());
+        returnConsultation.setRecommendedReturnDays(request.recommendedReturnDays());
         returnConsultation.setPatient(originalConsultation.getPatient());
         returnConsultation.setDoctor(doctor);
         returnConsultation.setReturnOfConsultation(originalConsultation);

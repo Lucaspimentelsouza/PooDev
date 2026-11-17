@@ -12,6 +12,9 @@ public record ConsultationResponse(
         String patientName,
         Long doctorId,
         String doctorName,
-        Long returnOfConsultationId
+        Long returnOfConsultationId,
+        String historyOfPresentIllness,
+        String physicalExamination,
+        Integer recommendedReturnDays
 ) {
 }

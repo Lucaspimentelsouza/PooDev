@@ -29,6 +29,15 @@ public class VitalSigns {
     @Column(name = "body_temperature", nullable = false, precision = 4, scale = 2)
     private BigDecimal bodyTemperature;
 
+    @Column(name = "heart_rate")
+    private Integer heartRate;
+
+    @Column(name = "oxygen_saturation", precision = 5, scale = 2)
+    private BigDecimal oxygenSaturation;
+
+    @Column(name = "blood_glucose", precision = 7, scale = 2)
+    private BigDecimal bloodGlucose;
+
     @OneToOne
     @JoinColumn(
             name = "consultation_id",

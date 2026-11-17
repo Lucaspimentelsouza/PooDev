@@ -7,6 +7,9 @@ public record VitalSignsResponse(
         Long consultationId,
         String bloodPressure,
         BigDecimal weight,
-        BigDecimal bodyTemperature
+        BigDecimal bodyTemperature,
+        Integer heartRate,
+        BigDecimal oxygenSaturation,
+        BigDecimal bloodGlucose
 ) {
 }

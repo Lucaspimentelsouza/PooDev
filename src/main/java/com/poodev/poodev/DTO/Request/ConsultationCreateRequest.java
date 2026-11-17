@@ -25,6 +25,13 @@ public record ConsultationCreateRequest(
         @Size(max = 255, message = "A hipótese deve ter no máximo 255 caracteres.")
         String diagnosticHypothesis,
 
-        String clinicalPlan
+        String clinicalPlan,
+
+        String historyOfPresentIllness,
+
+        String physicalExamination,
+
+        @Positive(message = "O prazo de retorno deve ser maior que zero.")
+        Integer recommendedReturnDays
 ) {
 }

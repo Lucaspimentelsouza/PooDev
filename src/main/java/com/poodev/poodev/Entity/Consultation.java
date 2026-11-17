@@ -31,6 +31,15 @@ public class Consultation {
     @Column (name = "clinical_plan", columnDefinition = "TEXT")
     private String clinicalPlan;
 
+    @Column(name = "history_of_present_illness", columnDefinition = "TEXT")
+    private String historyOfPresentIllness;
+
+    @Column(name = "physical_examination", columnDefinition = "TEXT")
+    private String physicalExamination;
+
+    @Column(name = "recommended_return_days")
+    private Integer recommendedReturnDays;
+
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     @JoinColumn (name = "patient_id", nullable = false)
     private Patient patient; // paciente atendido
