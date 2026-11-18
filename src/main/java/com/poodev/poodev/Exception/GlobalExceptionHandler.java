@@ -161,4 +161,32 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(PrescriptionNotFoundException.class)
+    public ProblemDetail handlePrescriptionNotFound(
+            PrescriptionNotFoundException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Receita não encontrada");
+
+        return problem;
+    }
+
+    @ExceptionHandler(PrescriptionAlreadyExistsException.class)
+    public ProblemDetail handlePrescriptionAlreadyExists(
+            PrescriptionAlreadyExistsException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Receita já cadastrada");
+
+        return problem;
+    }
 }
