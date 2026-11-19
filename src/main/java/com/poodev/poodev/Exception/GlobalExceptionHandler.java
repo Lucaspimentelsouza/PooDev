@@ -189,4 +189,32 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
+
+    @ExceptionHandler(PrescriptionNotSignedException.class)
+    public ProblemDetail handlePrescriptionNotSigned(
+            PrescriptionNotSignedException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Receita não assinada");
+
+        return problem;
+    }
+
+    @ExceptionHandler(PrescriptionAlreadySignedException.class)
+    public ProblemDetail handlePrescriptionAlreadySigned(
+            PrescriptionAlreadySignedException exception
+    ) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Receita já assinada");
+
+        return problem;
+    }
 }

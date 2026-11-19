@@ -15,6 +15,7 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 @RestController
 @RequestMapping("/api/consultations/{consultationId}/prescription")
@@ -80,5 +81,23 @@ public class PrescriptionController {
                 )
                 .cacheControl(CacheControl.noStore())
                 .body(pdf);
+    }
+
+    @PatchMapping("/sign")
+    public ResponseEntity<PrescriptionResponse> sign(
+            @PathVariable("consultationId") Long consultationId
+    ) {
+        return ResponseEntity.ok(
+                prescriptionService.sign(consultationId)
+        );
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<Boolean> verify(
+            @PathVariable("consultationId") Long consultationId
+    ) {
+        return ResponseEntity.ok(
+                prescriptionService.verify(consultationId)
+        );
     }
 }

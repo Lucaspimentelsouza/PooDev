@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import com.poodev.poodev.Exception.PrescriptionAlreadySignedException;
+import com.poodev.poodev.Exception.PrescriptionNotSignedException;
+import com.poodev.poodev.Service.DigitalSignatureService.SignedContent;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class PrescriptionService {
     private final PrescriptionRepository prescriptionRepository;
     private final ConsultationRepository consultationRepository;
     private final PrescriptionMapper prescriptionMapper;
+    private final DigitalSignatureService digitalSignatureService;
 
     @Transactional
     public PrescriptionResponse create(Long consultationId, PrescriptionRequest request)
@@ -88,5 +92,41 @@ public class PrescriptionService {
                 .orElseThrow(() ->
                         new PrescriptionNotFoundException(consultationId)
                 );
+    }
+
+    @Transactional
+    public PrescriptionResponse sign(Long consultationId) {
+        Prescription prescription = findPrescription(consultationId);
+
+        if (prescription.getSignature() != null) {
+            throw new PrescriptionAlreadySignedException(consultationId);
+        }
+
+        SignedContent signedContent =
+                digitalSignatureService.sign(prescription.getContent());
+
+        prescription.setSignature(signedContent.signature());
+        prescription.setSignatureAlgorithm(signedContent.algorithm());
+        prescription.setSignedAt(LocalDateTime.now());
+        prescription.setPublicKey(signedContent.publicKey());
+
+        Prescription saved = prescriptionRepository.save(prescription);
+
+        return prescriptionMapper.toResponse(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean verify(Long consultationId) {
+        Prescription prescription = findPrescription(consultationId);
+
+        if (prescription.getSignature() == null) {
+            throw new PrescriptionNotSignedException(consultationId);
+        }
+
+        return digitalSignatureService.verify(
+                prescription.getContent(),
+                prescription.getSignature(),
+                prescription.getPublicKey()
+        );
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.security.PublicKey;
 
 import java.time.LocalDateTime;
 
@@ -34,4 +35,16 @@ public class Prescription {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Column(name = "signature")
+    private byte[] signature;
+
+    @Column(name = "signature_algorithm", length = 50)
+    private String signatureAlgorithm;
+
+    @Column(name = "signed_at")
+    private LocalDateTime signedAt;
+
+    @Column(name = "public_key", columnDefinition = "TEXT")
+    private String publicKey;
 }

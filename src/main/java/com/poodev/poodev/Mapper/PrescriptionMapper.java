@@ -8,12 +8,17 @@ import org.springframework.stereotype.Component;
 public class PrescriptionMapper {
 
     public PrescriptionResponse toResponse(Prescription prescription) {
+        boolean signed = prescription.getSignature() != null;
+
         return new PrescriptionResponse(
                 prescription.getId(),
                 prescription.getConsultation().getId(),
                 prescription.getContent(),
                 prescription.getCreatedAt(),
-                prescription.getUpdatedAt()
+                prescription.getUpdatedAt(),
+                signed,
+                prescription.getSignedAt(),
+                prescription.getSignatureAlgorithm()
         );
     }
 }

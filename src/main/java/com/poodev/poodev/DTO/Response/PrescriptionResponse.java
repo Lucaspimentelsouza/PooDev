@@ -7,6 +7,9 @@ public record PrescriptionResponse(
         Long consultationId,
         String content,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        boolean signed,
+        LocalDateTime signedAt,
+        String signatureAlgorithm
 ) {
 }
